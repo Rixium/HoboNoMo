@@ -1,4 +1,5 @@
 ﻿using System;
+using HoboNoMo.Input;
 using HoboNoMo.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,6 +38,9 @@ namespace HoboNoMo
         private static void LoadUserPreferences()
         {
             UserPreferences.Load();
+            
+            InputManager.AddBinding(InputManager.Binding.Player1Up, new KeyInputBinding(Keys.W));
+            InputManager.AddBinding(InputManager.Binding.Player1Down, new KeyInputBinding(Keys.S));
         }
 
         protected override void Initialize()
@@ -61,6 +65,7 @@ namespace HoboNoMo
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
+            InputManager.Update(gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
             _sceneManager.Update(gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
             base.Update(gameTime);
         }

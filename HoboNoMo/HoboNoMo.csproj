@@ -46,6 +46,9 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Helpers\SpriteHelper.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="InputManager.cs" />
+    <Compile Include="Input\IInputBinding.cs" />
+    <Compile Include="Input\KeyInputBinding.cs" />
     <Compile Include="ISceneManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

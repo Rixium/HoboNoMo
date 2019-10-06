@@ -4,7 +4,6 @@ using HoboNoMo.Helpers;
 using HoboNoMo.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 namespace HoboNoMo.Scenes
@@ -28,7 +27,6 @@ namespace HoboNoMo.Scenes
         private List<Button> _buttons;
 
         private int _selectedButton;
-        private KeyboardState _lastKeyState;
 
         private int _currentSound;
 
@@ -97,32 +95,27 @@ namespace HoboNoMo.Scenes
 
         public void Update(float delta)
         {
-            var keyState = Keyboard.GetState();
-
             _buttons.ForEach(b => b.Update(delta));
             var changed = false;
-            if (keyState.IsKeyDown(Keys.S) && _lastKeyState.IsKeyUp(Keys.S))
+            if (InputManager.Player1Down.Press)
             {
                 _selectedButton++;
                 changed = true;
             }
-            else if (keyState.IsKeyDown(Keys.W) && _lastKeyState.IsKeyUp(Keys.W))
+            else if (InputManager.Player1Up.Press)
             {
                 _selectedButton--;
                 changed = true;
             }
 
-            if (changed)
-            {
-                if (_selectedButton < 0)
-                    _selectedButton = _buttons.Count - 1;
-                if (_selectedButton >= _buttons.Count)
-                    _selectedButton = 0;
+            if (!changed) return;
+            
+            if (_selectedButton < 0)
+                _selectedButton = _buttons.Count - 1;
+            if (_selectedButton >= _buttons.Count)
+                _selectedButton = 0;
                 
-                _buttons[_selectedButton].Selected = true;
-            }
-
-            _lastKeyState = keyState;
+            _buttons[_selectedButton].Selected = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)

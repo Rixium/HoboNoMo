@@ -1,3 +1,4 @@
+using System;
 using HoboNoMo.Scenes;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +11,19 @@ namespace HoboNoMo
         public IScene ActiveScene
         {
             get => _activeScene;
-            set => _activeScene = value;
+            set
+            {
+                value.RequestSceneChange = OnSceneChangeRequest;
+                _activeScene = value;
+            }
+        }
+
+        public Action OnSceneChange { get; set; }
+
+        private bool OnSceneChangeRequest(IScene scene)
+        {
+            ActiveScene = scene;
+            return true;
         }
 
         public void Update(float delta)

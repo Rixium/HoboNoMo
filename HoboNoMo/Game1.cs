@@ -9,16 +9,21 @@ namespace HoboNoMo
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private ContentChest _contentChest;
+        private SceneManager _sceneManager;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
+            _contentChest = ContentChest.Create(Content);
+            _sceneManager = new SceneManager();
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            Window.Title = "HoboNoMo'";
             base.Initialize();
         }
 

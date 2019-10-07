@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Lidgren.Network;
+using Microsoft.Xna.Framework;
 
 namespace HoboNoMo.Network
 {
     public class NetworkManager
     {
+        public Action OnGameStart { get; set; }
         public enum MessageType
         {
             RequestPlayers,
             PlayerInfo,
             CreatePlayer,
-            NewConnectionPlayer
+            NewConnectionPlayer,
+            PlayerPositionUpdate,
+            GameStart
         }
 
         public bool IsServer => _server != null;
@@ -93,6 +97,12 @@ namespace HoboNoMo.Network
                         _client.SendMessage(getAllPlayers, NetDeliveryMethod.ReliableOrdered);
                         
                         break;
+                    case MessageType.PlayerPositionUpdate:
+                        ProcessPlayerPositionUpdate(msg);
+                        break;
+                    case MessageType.GameStart:
+                        OnGameStart?.Invoke();
+                        break;
                 }
             }
         }
@@ -133,8 +143,31 @@ namespace HoboNoMo.Network
                         newPlayerMessage.Write(newPlayer.Name);
                         _server.SendMessage(newPlayerMessage, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
                         break;
+                    case MessageType.NewConnectionPlayer:
+                        break;
+                    case MessageType.PlayerPositionUpdate:
+                        var processed = ProcessPlayerPositionUpdate(msg);
+                        if (processed == null) continue;
+                        SendPlayerPosition(processed);
+                        break;
                 }
             }
+        }
+
+        private Player ProcessPlayerPositionUpdate(NetBuffer msg)
+        {
+            var playerId = msg.ReadString();
+            var playerX = msg.ReadFloat();
+            var playerY = msg.ReadFloat();
+
+            if (playerId == _myPlayer.Id.ToString()) return null;
+
+            var player = Players.FirstOrDefault(p => p.Id.ToString().Equals(playerId));
+            if (player == null) return null;
+            
+            player.Position = new Vector2(playerX, playerY);
+
+            return player;
         }
 
         public void Create()
@@ -179,5 +212,45 @@ namespace HoboNoMo.Network
         {
             return _myPlayer;
         }
+
+        public void SendPlayerPosition(Player player)
+        {
+            if(player == null) return;
+            
+            NetOutgoingMessage msg;
+            
+            if (IsClient)
+            {
+                msg = _client.CreateMessage();
+            }
+            else
+            {
+                msg = _server.CreateMessage();
+            }
+            
+            msg.Write((int) MessageType.PlayerPositionUpdate);
+            msg.Write(player.Id.ToString());
+            msg.Write(player.Position.X);
+            msg.Write(player.Position.Y);
+            
+            
+            if (IsClient)
+            {
+                _client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+            }
+            else
+            {
+                _server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+            }
+        }
+
+        public void SendGameStart()
+        {
+            if (IsServer == false) return;
+            var msg = _server.CreateMessage();
+            msg.Write((int)MessageType.GameStart);
+            _server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+        }
     }
+    
 }

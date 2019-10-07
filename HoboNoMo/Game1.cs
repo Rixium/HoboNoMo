@@ -62,6 +62,14 @@ namespace HoboNoMo
             InputManager.AddBinding(InputManager.Binding.Player1Down,
                 new KeyInputBinding(Keys.S));
             
+            
+            InputManager.AddBinding(InputManager.Binding.Player1Left,
+                new KeyInputBinding(Keys.A));
+
+            InputManager.AddBinding(InputManager.Binding.Player1Right,
+                new KeyInputBinding(Keys.D));
+
+            
             InputManager.AddBinding(InputManager.Binding.Player1Use,
                 new KeyInputBinding(Keys.Space));
         }

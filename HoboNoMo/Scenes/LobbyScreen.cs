@@ -32,12 +32,11 @@ namespace HoboNoMo.Scenes
             Color.Yellow,
             Color.Purple
         });
-        
+
         public LobbyScreen(ContentChest contentChest, bool joining = false, string ipAddress = "")
         {
             _contentChest = contentChest;
             Game1.OnScreenSizeChanged += Initialise;
-            Initialise();
 
             _networkManager = new NetworkManager();
 
@@ -57,6 +56,8 @@ namespace HoboNoMo.Scenes
                 _networkManager.OnPlayerAdded += player => { _contentChest.Select.Play(); };
                 _networkManager.OnConnected += () => { _contentChest.Select.Play(); };
             }
+            
+            Initialise();
         }
 
         private void Initialise()
@@ -73,7 +74,7 @@ namespace HoboNoMo.Scenes
             var backButton = new Button(_contentChest.ButtonFont,
                 "Back",
                 new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 90),
-                _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon, true);
+                _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon);
 
             backButton.OnButtonSelected += OnButtonSelect;
 
@@ -82,8 +83,31 @@ namespace HoboNoMo.Scenes
                 _networkManager.Disconnect();
                 RequestSceneChange?.Invoke(new MainMenuScreen(_contentChest));
             };
+            
+            if (_networkManager.IsServer)
+            {
+                var startButton = new Button(_contentChest.ButtonFont,
+                    "Start",
+                    new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 60),
+                    _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon, true);
 
-            _buttons = new List<Button>(new [] { backButton });
+                startButton.OnButtonSelected += OnButtonSelect;
+
+                startButton.OnClick += () =>
+                {
+                    RequestSceneChange?.Invoke(new GameScreen(_contentChest, _networkManager));
+                    _networkManager.SendGameStart();
+                };
+                
+                _buttons = new List<Button>(new [] {startButton, backButton });
+            }
+            else
+            {
+                _networkManager.OnGameStart += () => RequestSceneChange?.Invoke(new GameScreen(_contentChest, _networkManager));
+                
+                backButton.Selected = true;
+                _buttons = new List<Button>(new [] { backButton });
+            }
         }
 
         

@@ -25,7 +25,11 @@ namespace HoboNoMo.Input
 
             if (keyState.IsKeyDown(_key) && !_lastState.IsKeyUp(_key))
                 _lastTimer += delta;
-            else Held = false;
+            else
+            {
+                _lastTimer = 0;
+                Held = false;
+            }
 
             Held = _lastTimer >= 0.5f;
 

@@ -9,6 +9,8 @@ namespace HoboNoMo
         {
             Player1Up,
             Player1Down,
+            Player1Left,
+            Player1Right,
             Player1Use
         }
 
@@ -16,6 +18,8 @@ namespace HoboNoMo
 
         public static IInputBinding Player1Down => _bindings[Binding.Player1Down];
         public static IInputBinding Player1Up => _bindings[Binding.Player1Up];
+        public static IInputBinding Player1Left => _bindings[Binding.Player1Left];
+        public static IInputBinding Player1Right => _bindings[Binding.Player1Right];
         public static IInputBinding Player1Use => _bindings[Binding.Player1Use];
 
         public static void AddBinding(Binding binding, IInputBinding inputBinding)

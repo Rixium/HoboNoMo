@@ -58,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneManager.cs" />
     <Compile Include="Scenes\ConnectionScreen.cs" />
+    <Compile Include="Scenes\GameScreen.cs" />
     <Compile Include="Scenes\IScene.cs" />
     <Compile Include="Scenes\LobbyScreen.cs" />
     <Compile Include="Scenes\MainMenuScreen.cs" />

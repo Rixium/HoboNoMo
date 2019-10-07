@@ -38,6 +38,7 @@
         <e p="SceneManager.cs" t="Include" />
         <e p="Scenes" t="Include">
           <e p="ConnectionScreen.cs" t="Include" />
+          <e p="GameScreen.cs" t="Include" />
           <e p="IScene.cs" t="Include" />
           <e p="LobbyScreen.cs" t="Include" />
           <e p="MainMenuScreen.cs" t="Include" />

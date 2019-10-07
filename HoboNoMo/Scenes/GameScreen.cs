@@ -1,5 +1,4 @@
 using System;
-using HoboNoMo.Helpers;
 using HoboNoMo.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +7,7 @@ namespace HoboNoMo.Scenes
 {
     public class GameScreen : IScene
     {
+
         private readonly ContentChest _contentChest;
         private readonly NetworkManager _networkManager;
         public Func<IScene, bool> RequestSceneChange { get; set; }
@@ -23,25 +23,45 @@ namespace HoboNoMo.Scenes
         public void Update(float delta)
         {
             _networkManager.Update(delta);
+
+            var lastAnimation = Player.ActiveAnimation;
             
-            if (InputManager.Player1Down.Held)
+            _networkManager.Players.ForEach(p => p.Update(delta));
+            var moving = false;
+            if (InputManager.Player1Down.Down)
             {
-                Player.Position += new Vector2(0, 50 * delta);
-                _networkManager.SendPlayerPosition(Player);
-            } else if (InputManager.Player1Up.Held)
+                Player.ActiveAnimation = Player.Animation.WalkDown;
+                Player.Position += new Vector2(0, Player.Speed * delta);
+                moving = true;
+            } else if (InputManager.Player1Up.Down)
             {
-                Player.Position -= new Vector2(0, 50 * delta);
-                _networkManager.SendPlayerPosition(Player);
+                
+                Player.ActiveAnimation = Player.Animation.WalkUp;
+                Player.Position -= new Vector2(0, Player.Speed * delta);
+                moving = true;
             }
             
             
-            if (InputManager.Player1Left.Held)
+            if (InputManager.Player1Left.Down)
             {
-                Player.Position -= new Vector2(50 * delta, 0);
-                _networkManager.SendPlayerPosition(Player);
-            } else if (InputManager.Player1Right.Held)
+                Player.ActiveAnimation = Player.Animation.WalkLeft;
+                Player.Position -= new Vector2(Player.Speed * delta, 0);
+                moving = true;
+            } else if (InputManager.Player1Right.Down)
             {
-                Player.Position += new Vector2(50 * delta, 0);
+                Player.ActiveAnimation = Player.Animation.WalkRight;
+                Player.Position += new Vector2(Player.Speed * delta, 0);
+                moving = true;
+            }
+
+            if (!moving)
+            {
+                Player.ActiveAnimation = Player.Animation.Idle;
+            }
+            else
+            {
+                if(lastAnimation != Player.ActiveAnimation)
+                    _networkManager.SendPlayerAnimation(Player);
                 _networkManager.SendPlayerPosition(Player);
             }
         }
@@ -50,12 +70,8 @@ namespace HoboNoMo.Scenes
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
-            foreach (var player in _networkManager.Players)
-            {
-                var nameMeasurements = StringHelpers.Measure(player.Name, _contentChest.ButtonFont);
-                spriteBatch.DrawString(_contentChest.ButtonFont, player.Name, player.Position - new Vector2(nameMeasurements.X / 2 + 16, 5 + nameMeasurements.Y), Color.White);
-                SpriteHelper.DrawRectangle(spriteBatch, new Rectangle((int) player.Position.X, (int) player.Position.Y, 32, 32), Color.White);
-            }
+            _networkManager.Players.ForEach(p => p.Draw(spriteBatch));
+            
             spriteBatch.End();
         }
     }

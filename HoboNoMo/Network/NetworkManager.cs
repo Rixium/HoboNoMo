@@ -17,7 +17,8 @@ namespace HoboNoMo.Network
             CreatePlayer,
             NewConnectionPlayer,
             PlayerPositionUpdate,
-            GameStart
+            GameStart,
+            AnimationUpdate
         }
 
         public bool IsServer => _server != null;
@@ -103,6 +104,9 @@ namespace HoboNoMo.Network
                     case MessageType.GameStart:
                         OnGameStart?.Invoke();
                         break;
+                    case MessageType.AnimationUpdate:
+                        ProcessPlayerAnimationUpdate(msg);
+                        break;
                 }
             }
         }
@@ -150,8 +154,28 @@ namespace HoboNoMo.Network
                         if (processed == null) continue;
                         SendPlayerPosition(processed);
                         break;
+                    case MessageType.GameStart:
+                        break;
+                    case MessageType.AnimationUpdate:
+                        var animationProcessed = ProcessPlayerAnimationUpdate(msg);
+                        if (animationProcessed == null) continue;
+                        SendPlayerAnimation(animationProcessed);
+                        break;
                 }
             }
+        }
+
+        private Player ProcessPlayerAnimationUpdate(NetIncomingMessage msg)
+        {
+            var playerId = msg.ReadString();
+            var playerAnimation = (Player.Animation)msg.ReadInt32();
+            
+            var player = Players.FirstOrDefault(p => p.Id.ToString().Equals(playerId));
+            if (player == null) return null;
+            
+            player.ActiveAnimation = playerAnimation;
+
+            return player;
         }
 
         private Player ProcessPlayerPositionUpdate(NetBuffer msg)
@@ -250,6 +274,35 @@ namespace HoboNoMo.Network
             var msg = _server.CreateMessage();
             msg.Write((int)MessageType.GameStart);
             _server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        public void SendPlayerAnimation(Player player)
+        {
+            if(player == null) return;
+            
+            NetOutgoingMessage msg;
+            
+            if (IsClient)
+            {
+                msg = _client.CreateMessage();
+            }
+            else
+            {
+                msg = _server.CreateMessage();
+            }
+            
+            msg.Write((int) MessageType.AnimationUpdate);
+            msg.Write(player.Id.ToString());
+            msg.Write((int)player.ActiveAnimation);
+            
+            if (IsClient)
+            {
+                _client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+            }
+            else
+            {
+                _server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+            }
         }
     }
     

@@ -19,12 +19,14 @@ namespace HoboNoMo.Input
 
         public bool Held { get; set; }
         public bool Press { get; set; }
+        public bool Down { get; set; }
 
         public void Update(float delta)
         {
             var state = GamePad.GetState(_index);
 
             Press = state.IsButtonDown(_button) && _lastState.IsButtonUp(_button);
+            Down = state.IsButtonDown(_button);
 
             if (state.IsButtonDown(_button) && _lastState.IsButtonDown(_button))
             {

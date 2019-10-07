@@ -4,6 +4,8 @@ namespace HoboNoMo.Input
     {
         bool Held { get; set; }
         bool Press { get; set; }
+        
+        bool Down { get; set; }
 
         void Update(float delta);
     }

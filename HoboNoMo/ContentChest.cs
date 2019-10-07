@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +20,13 @@ namespace HoboNoMo
         public SoundEffect Bo { get; set; }
         
         public Song MainTheme { get; set; }
+
+        public enum Outfit
+        {
+            Nude
+        }
+        
+        public Dictionary<Outfit, Dictionary<Player.Animation, Texture2D[]>> PlayerTextures { get; set; } = new Dictionary<Outfit, Dictionary<Player.Animation, Texture2D[]>>();
 
         private ContentChest(ContentManager manager)
         {
@@ -45,6 +53,44 @@ namespace HoboNoMo
             Bo = _contentManager.Load<SoundEffect>("Sounds/bo");
 
             MainTheme = _contentManager.Load<Song>("Music/hobotheme");
+
+            var idle = new[]
+            {
+                _contentManager.Load<Texture2D>("Player/1frontStand"),
+                _contentManager.Load<Texture2D>("Player/1frontStand")
+            };
+            var walkLeft = new[]
+            {
+                _contentManager.Load<Texture2D>("Player/1leftWalk1"),
+                _contentManager.Load<Texture2D>("Player/1leftStand")
+            };
+            var walkRight = new[]
+            {
+                _contentManager.Load<Texture2D>("Player/1rightWalk1"),
+                _contentManager.Load<Texture2D>("Player/1rightStand")
+            };
+            var walkDown = new[]
+            {
+                _contentManager.Load<Texture2D>("Player/1frontWalk1"),
+                _contentManager.Load<Texture2D>("Player/1frontWalk2")
+            };
+
+            var walkUp = new[]
+            {
+                _contentManager.Load<Texture2D>("Player/1backWalk1"),
+                _contentManager.Load<Texture2D>("Player/1backStand")
+            };
+
+            var scrubDictionary = new Dictionary<Player.Animation, Texture2D[]>
+            {
+                {Player.Animation.Idle, idle},
+                {Player.Animation.WalkLeft, walkLeft},
+                {Player.Animation.WalkRight, walkRight},
+                {Player.Animation.WalkDown, walkDown},
+                {Player.Animation.WalkUp, walkUp}
+            };
+
+            PlayerTextures.Add(Outfit.Nude, scrubDictionary);
         }
     }
 }

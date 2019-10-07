@@ -26,6 +26,7 @@ namespace HoboNoMo.Input
 
         public bool Held { get; set; }
         public bool Press { get; set; }
+        public bool Down { get; set; }
 
         private GamePadState _lastState;
         private float _holdTime;
@@ -66,6 +67,7 @@ namespace HoboNoMo.Input
                 case Direction.Left:
                     if (state.ThumbSticks.Left.X < -0.5f)
                     {
+                        Down = true;
                         if (_lastState.ThumbSticks.Left.X < -0.5f)
                         {
                             _holdTime += delta;
@@ -74,11 +76,11 @@ namespace HoboNoMo.Input
                                 Held = true;
                             }
                         }
-
                         Press = _lastState.ThumbSticks.Left.X > -0.5f;
                     }
                     else
                     {
+                        Down = false;
                         Held = false;
                         _holdTime = 0;
                     }
@@ -87,6 +89,7 @@ namespace HoboNoMo.Input
                 case Direction.Right:
                     if (state.ThumbSticks.Left.X > 0.5f)
                     {
+                        Down = true;
                         if (_lastState.ThumbSticks.Left.X > 0.5f)
                         {
                             _holdTime += delta;
@@ -100,6 +103,7 @@ namespace HoboNoMo.Input
                     }
                     else
                     {
+                        Down = false;
                         Held = false;
                         _holdTime = 0;
                     }
@@ -108,6 +112,7 @@ namespace HoboNoMo.Input
                 case Direction.Down:
                     if (state.ThumbSticks.Left.Y < -0.5f)
                     {
+                        Down = true;
                         if (_lastState.ThumbSticks.Left.Y < -0.5f)
                         {
                             _holdTime += delta;
@@ -121,6 +126,7 @@ namespace HoboNoMo.Input
                     }
                     else
                     {
+                        Down = false;
                         Held = false;
                         _holdTime = 0;
                     }
@@ -129,6 +135,7 @@ namespace HoboNoMo.Input
                 case Direction.Up:
                     if (state.ThumbSticks.Left.Y > 0.5f)
                     {
+                        Down = true;
                         if (_lastState.ThumbSticks.Left.Y > 0.5f)
                         {
                             _holdTime += delta;
@@ -142,6 +149,7 @@ namespace HoboNoMo.Input
                     }
                     else
                     {
+                        Down = false;
                         Held = false;
                         _holdTime = 0;
                     }

@@ -46,12 +46,6 @@ namespace HoboNoMo
         private static void LoadUserPreferences()
         {
             UserPreferences.Load();
-
-            if (GamePad.GetState(PlayerIndex.One).IsConnected)
-            {
-                ConfigureController();
-            }
-            else ConfigureKeyboard();
         }
 
         private static void ConfigureKeyboard()
@@ -86,6 +80,16 @@ namespace HoboNoMo
                     GamePadThumbstickInputBinding.Thumbstick.Left,
                     GamePadThumbstickInputBinding.Direction.Down));
             
+            InputManager.AddBinding(InputManager.Binding.Player1Left,
+                new GamePadThumbstickInputBinding(PlayerIndex.One,
+                    GamePadThumbstickInputBinding.Thumbstick.Left,
+                    GamePadThumbstickInputBinding.Direction.Left));
+            
+            InputManager.AddBinding(InputManager.Binding.Player1Right,
+                new GamePadThumbstickInputBinding(PlayerIndex.One,
+                    GamePadThumbstickInputBinding.Thumbstick.Left,
+                    GamePadThumbstickInputBinding.Direction.Right));
+            
             
             InputManager.AddBinding(InputManager.Binding.Player1Use,
                 new GamePadButtonInputBinding(PlayerIndex.One, Buttons.A));
@@ -105,6 +109,12 @@ namespace HoboNoMo
 
             _sceneManager.OnSceneChange += OnSceneChange;
             _sceneManager.ActiveScene = new SplashScreen(ContentChest);
+            
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                ConfigureController();
+            }
+            else ConfigureKeyboard();
         }
 
         protected override void Update(GameTime gameTime)

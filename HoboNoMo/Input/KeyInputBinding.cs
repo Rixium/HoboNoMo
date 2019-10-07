@@ -7,6 +7,7 @@ namespace HoboNoMo.Input
         private KeyboardState _lastState;
         public bool Held { get; set; }
         public bool Press { get; set; }
+        public bool Down { get; set; }
 
         private float _lastTimer;
 
@@ -22,7 +23,8 @@ namespace HoboNoMo.Input
             var keyState = Keyboard.GetState();
 
             Press = keyState.IsKeyDown(_key) && _lastState.IsKeyUp(_key);
-
+            Down = keyState.IsKeyDown(_key);
+            
             if (keyState.IsKeyDown(_key) && !_lastState.IsKeyUp(_key))
                 _lastTimer += delta;
             else

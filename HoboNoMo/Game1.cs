@@ -40,6 +40,9 @@ namespace HoboNoMo
             OnQuit += Exit;
         }
 
+        public static string GameTitle { get; set; } = "Hobonomo";
+        public static string Version { get; set; } = "1.0.0";
+
         private static void LoadUserPreferences()
         {
             UserPreferences.Load();

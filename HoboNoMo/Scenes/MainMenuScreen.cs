@@ -35,6 +35,7 @@ namespace HoboNoMo.Scenes
 
             if (MediaPlayer.State != MediaState.Playing)
             {
+                MediaPlayer.Volume = 0.2f;
                 MediaPlayer.Play(_contentChest.MainTheme);
                 MediaPlayer.IsRepeating = true;
             }
@@ -72,31 +73,43 @@ namespace HoboNoMo.Scenes
 
 
             var playButton = new Button(_contentChest.ButtonFont,
-                "Start",
+                "Create",
                 new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f),
                 _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon, true);
 
             playButton.OnButtonSelected += OnButtonSelect;
 
-            playButton.OnClick += () => { RequestSceneChange?.Invoke(new LobbyScene(_contentChest)); };
+            playButton.OnClick += () => { RequestSceneChange?.Invoke(new LobbyScreen(_contentChest)); };
+            
+            var joinButton = new Button(_contentChest.ButtonFont,
+                "Join",
+                new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 30),
+                _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon);
 
+            joinButton.OnButtonSelected += OnButtonSelect;
+
+            joinButton.OnClick += () => { RequestSceneChange?.Invoke(new LobbyScreen(_contentChest, true)); };
+
+            
             var optionsButton = new Button(_contentChest.ButtonFont,
                 "Options",
-                new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 30),
+                new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 60),
                 _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon);
 
             optionsButton.OnButtonSelected += OnButtonSelect;
 
+            optionsButton.OnClick += () => { RequestSceneChange?.Invoke(new OptionsScreen(_contentChest)); };
+            
             var quitButton = new Button(_contentChest.ButtonFont,
                 "Quit",
-                new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 60),
+                new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f + 90),
                 _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon);
 
             quitButton.OnButtonSelected += OnButtonSelect;
 
             quitButton.OnClick += () => { Game1.OnQuit?.Invoke(); };
 
-            _buttons = new List<Button>(new[] {playButton, optionsButton, quitButton});
+            _buttons = new List<Button>(new[] {playButton, joinButton, optionsButton, quitButton});
         }
 
         public void Update(float delta)

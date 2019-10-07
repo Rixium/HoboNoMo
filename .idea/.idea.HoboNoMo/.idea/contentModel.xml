@@ -25,7 +25,12 @@
         </e>
         <e p="InputManager.cs" t="Include" />
         <e p="ISceneManager.cs" t="Include" />
+        <e p="Network" t="Include">
+          <e p="NetworkManager.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Player.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
@@ -33,8 +38,9 @@
         <e p="SceneManager.cs" t="Include" />
         <e p="Scenes" t="Include">
           <e p="IScene.cs" t="Include" />
-          <e p="LobbyScene.cs" t="Include" />
+          <e p="LobbyScreen.cs" t="Include" />
           <e p="MainMenuScreen.cs" t="Include" />
+          <e p="OptionsScreen.cs" t="Include" />
           <e p="SplashScreen.cs" t="Include" />
         </e>
         <e p="UI" t="Include">

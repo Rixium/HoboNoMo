@@ -49,7 +49,7 @@ namespace HoboNoMo.Scenes
                 {
                     Id = Guid.NewGuid(),
                     Name = "Player" + _networkManager.Players.Count + 1
-                });
+                }, true);
             }
             else
             {
@@ -151,7 +151,9 @@ namespace HoboNoMo.Scenes
                 var player = _networkManager.Players[i];
                 var measurements = StringHelpers.Measure(player.Name, _contentChest.ButtonFont);
                 var position = new Vector2(UserPreferences.ScreenWidth / 2.0f - measurements.X / 2, _lobbyPosition.Y + 80 + 20 * i);
-                spriteBatch.DrawString(_contentChest.ButtonFont, player.Name, position, Color.White);
+
+                spriteBatch.DrawString(_contentChest.ButtonFont, player.Name, position,
+                    _networkManager.GetMyPlayer().Id.Equals(player.Id) ? Color.Green : Color.White);
             }
             
             _buttons.ForEach(b => b.Draw(spriteBatch));

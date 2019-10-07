@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Lidgren.Network;
 
@@ -11,6 +12,8 @@ namespace HoboNoMo.Network
         {
             RequestPlayers,
             PlayerInfo,
+            CreatePlayer,
+            NewConnectionPlayer
         }
 
         public bool IsServer => _server != null;
@@ -20,6 +23,7 @@ namespace HoboNoMo.Network
         private NetClient _client;
 
         private NetPeerConfiguration _config;
+        private Player _myPlayer;
 
         private string AppIdentifier { get; } = Game1.GameTitle + Game1.Version;
 
@@ -32,10 +36,15 @@ namespace HoboNoMo.Network
         public List<Player> Players { get; set; } = new List<Player>();
         public Action OnConnected { get; set; }
 
-        public void AddPlayer(Player player)
+        public Player AddPlayer(Player player, bool isMine = false)
         {
             Players.Add(player);
             OnPlayerAdded?.Invoke(player);
+
+            if (isMine)
+                _myPlayer = player;
+            
+            return player;
         }
 
         public void Update(float delta)
@@ -53,70 +62,77 @@ namespace HoboNoMo.Network
             while ((msg = _client.ReadMessage()) != null)
             {
                 var first = (MessageType) msg.ReadInt32();
-                if (first == MessageType.PlayerInfo)
+                switch (first)
                 {
-                    var playerId = msg.ReadString();
-                    var playerName = msg.ReadString();
-                    Players.Add(new Player
-                    {
-                        Id = new Guid(playerId),
-                        Name = playerName
-                    });
+                    case MessageType.RequestPlayers:
+                        break;
+                    case MessageType.PlayerInfo:
+                        var playerId = msg.ReadString();
+                        if (PlayerExists(playerId)) continue;
+                        var playerName = msg.ReadString();
+                        Players.Add(new Player
+                        {
+                            Id = new Guid(playerId),
+                            Name = playerName
+                        });
+                        break;
+                    case MessageType.CreatePlayer:
+                        break;
+                    case MessageType.NewConnectionPlayer:
+                        var myPlayerId = msg.ReadString();
+                        if (PlayerExists(myPlayerId)) continue;
+                        var myPlayerName = msg.ReadString();
+                        _myPlayer = AddPlayer(new Player
+                        {
+                            Id = new Guid(myPlayerId),
+                            Name = myPlayerName
+                        });
+                        
+                        var getAllPlayers = _client.CreateMessage();
+                        getAllPlayers.Write((int)MessageType.RequestPlayers);
+                        _client.SendMessage(getAllPlayers, NetDeliveryMethod.ReliableOrdered);
+                        
+                        break;
                 }
             }
         }
+
+        private bool PlayerExists(string playerId) => Players.FirstOrDefault(p => p.Id.ToString().Equals(playerId, StringComparison.Ordinal)) != null;
 
         private void ProcessServer()
         {
             NetIncomingMessage msg;
             while ((msg = _server.ReadMessage()) != null)
             {
-                switch (msg.MessageType)
-                {
-                    case NetIncomingMessageType.Error:
-                        break;
-                    case NetIncomingMessageType.StatusChanged:
-                        break;
-                    case NetIncomingMessageType.UnconnectedData:
-                        break;
-                    case NetIncomingMessageType.ConnectionApproval:
-                        break;
-                    case NetIncomingMessageType.Data:
-                        break;
-                    case NetIncomingMessageType.Receipt:
-                        break;
-                    case NetIncomingMessageType.DiscoveryRequest:
-                        break;
-                    case NetIncomingMessageType.DiscoveryResponse:
-                        break;
-                    case NetIncomingMessageType.VerboseDebugMessage:
-                        break;
-                    case NetIncomingMessageType.DebugMessage:
-                        break;
-                    case NetIncomingMessageType.WarningMessage:
-                        break;
-                    case NetIncomingMessageType.ErrorMessage:
-                        break;
-                    case NetIncomingMessageType.NatIntroductionSuccess:
-                        break;
-                    case NetIncomingMessageType.ConnectionLatencyUpdated:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
                 var first = (MessageType) msg.ReadInt32();
-                
-                if (first == MessageType.RequestPlayers)
+
+                switch (first)
                 {
-                    foreach (var player in Players)
-                    {
-                        var outgoing = _server.CreateMessage();
-                        outgoing.Write((int) MessageType.PlayerInfo);
-                        outgoing.Write(player.Id.ToString());
-                        outgoing.Write(player.Name);
-                        _server.SendMessage(outgoing, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-                    }
+                    case MessageType.RequestPlayers:
+                        foreach (var player in Players)
+                        {
+                            var outgoing = _server.CreateMessage();
+                            outgoing.Write((int) MessageType.PlayerInfo);
+                            outgoing.Write(player.Id.ToString());
+                            outgoing.Write(player.Name);
+                            _server.SendMessage(outgoing, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+                        }
+                        break;
+                    case MessageType.PlayerInfo:
+                        break;
+                    case MessageType.CreatePlayer:
+                        var newPlayer = AddPlayer(new Player
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = $"Player{Players.Count + 1}"
+                        });
+                        
+                        var newPlayerMessage = _server.CreateMessage();
+                        newPlayerMessage.Write((int) MessageType.NewConnectionPlayer);
+                        newPlayerMessage.Write(newPlayer.Id.ToString());
+                        newPlayerMessage.Write(newPlayer.Name);
+                        _server.SendMessage(newPlayerMessage, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+                        break;
                 }
             }
         }
@@ -148,7 +164,7 @@ namespace HoboNoMo.Network
             OnConnected?.Invoke();
             
             var msg = _client.CreateMessage();
-            msg.Write((int)MessageType.RequestPlayers);
+            msg.Write((int)MessageType.CreatePlayer);
         
             _client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
         }
@@ -157,6 +173,11 @@ namespace HoboNoMo.Network
         {
             _server?.Shutdown("Server shutting down");
             _client?.Shutdown("Client shutting down");
+        }
+
+        public Player GetMyPlayer()
+        {
+            return _myPlayer;
         }
     }
 }

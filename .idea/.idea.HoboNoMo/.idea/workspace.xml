@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d639a9f-7e4c-4197-92ff-c64153ece563" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Content/Content.mgcb" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Content/Content.mgcb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/ContentChest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/ContentChest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Game1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Game1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Input/GamePadButtonInputBinding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Input/GamePadButtonInputBinding.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Input/GamePadThumbstickInputBinding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Input/GamePadThumbstickInputBinding.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Input/IInputBinding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Input/IInputBinding.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Input/KeyInputBinding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Input/KeyInputBinding.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HoboNoMo/Network/NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Network/NetworkManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HoboNoMo/Camera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HoboNoMo/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HoboNoMo/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HoboNoMo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HoboNoMo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HoboNoMo/HoboNoMo.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/HoboNoMo.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HoboNoMo/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Player.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HoboNoMo/Scenes/GameScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HoboNoMo/Scenes/GameScreen.cs" afterDir="false" />
     </list>
@@ -110,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HoboNoMo/Game1.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-285">
+            <state relative-caret-position="1169">
               <caret line="111" column="12" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
               <folding>
                 <marker date="1570482478161" expanded="false" signature="6:192" ph="..." />
@@ -136,39 +132,41 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/HoboNoMo/Scenes/GameScreen.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="63" column="64" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
+            <state relative-caret-position="46">
+              <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
               <folding>
-                <marker date="1570485744906" expanded="true" signature="6:108" ph="..." />
-                <marker date="1570485744906" expanded="true" signature="135:2541" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="174:2539" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="515:623" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="664:2259" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="933:1133" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="1171:1386" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="1459:1659" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="1700:1901" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="1927:2019" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="2036:2249" ph="{...}" />
-                <marker date="1570485744906" expanded="true" signature="2310:2533" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="6:132" ph="..." />
+                <marker date="1570487863192" expanded="true" signature="159:2996" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="198:2994" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="590:742" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="783:2471" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="1163:1338" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="1376:1566" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="1639:1814" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="1855:2031" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="2057:2274" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="2291:2461" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="2507:2583" ph="{...}" />
+                <marker date="1570487863192" expanded="true" signature="2634:2988" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HoboNoMo/InputManager.cs">
+        <entry file="file://$PROJECT_DIR$/HoboNoMo/Camera.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="20" column="80" selection-start-line="20" selection-start-column="80" selection-end-line="20" selection-end-column="80" />
+            <state relative-caret-position="-8">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
               <folding>
-                <marker date="1570480368078" expanded="true" signature="6:55" ph="..." />
-                <marker date="1570480368078" expanded="true" signature="75:1166" ph="{...}" />
-                <marker date="1570480368078" expanded="true" signature="114:1164" ph="{...}" />
-                <marker date="1570480368078" expanded="true" signature="148:290" ph="{...}" />
-                <marker date="1570480368078" expanded="true" signature="899:966" ph="{...}" />
-                <marker date="1570480368078" expanded="true" signature="1018:1158" ph="{...}" />
-                <marker date="1570480368078" expanded="true" signature="1073:1148" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="50:1241" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="76:1239" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="356:424" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="464:524" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="553:774" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="813:918" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="980:1092" ph="{...}" />
+                <marker date="1570486234754" expanded="true" signature="1153:1233" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -224,7 +222,7 @@
         <entry file="file://$PROJECT_DIR$/HoboNoMo/ContentChest.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-197">
-              <caret line="83" column="35" lean-forward="true" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
+              <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
               <folding>
                 <marker date="1570484780329" expanded="true" signature="6:186" ph="..." />
                 <marker date="1570484780329" expanded="true" signature="206:3382" ph="{...}" />
@@ -247,19 +245,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HoboNoMo/Player.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
+            <state relative-caret-position="-184">
+              <caret line="64" selection-start-line="64" selection-end-line="64" />
               <folding>
-                <marker date="1570485168428" expanded="true" signature="6:108" ph="..." />
-                <marker date="1570485168428" expanded="true" signature="128:2192" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="154:2190" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="199:323" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="497:767" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="560:757" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="1103:1477" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="1200:1298" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="1402:1467" ph="{...}" />
-                <marker date="1570485168428" expanded="true" signature="1528:2174" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="6:108" ph="..." />
+                <marker date="1570487833200" expanded="true" signature="128:3152" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="154:3150" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="199:323" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="497:767" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="560:757" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="1270:2437" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="1367:1465" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="1569:1634" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="2325:2427" ph="{...}" />
+                <marker date="1570487833200" expanded="true" signature="2488:3134" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -289,6 +288,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/06452B71-9576-486B-AAA3-34B141B6537A/18/0ba17cd7/Func`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HoboNoMo/Scenes/SplashScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HoboNoMo/UserPreferences.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/HoboNoMo/Camera.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HoboNoMo/Scenes/ConnectionScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4FC8466C-2738-4BB1-9C7B-81B2A6A71083/c2/45556fba/Color.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/06452B71-9576-486B-AAA3-34B141B6537A/2b/7c93e92a/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
@@ -340,8 +340,9 @@
         <option value="$PROJECT_DIR$/HoboNoMo/Input/GamePadThumbstickInputBinding.cs" />
         <option value="$PROJECT_DIR$/HoboNoMo/Input/GamePadButtonInputBinding.cs" />
         <option value="$PROJECT_DIR$/HoboNoMo/ContentChest.cs" />
-        <option value="$PROJECT_DIR$/HoboNoMo/Player.cs" />
         <option value="$PROJECT_DIR$/HoboNoMo/Network/NetworkManager.cs" />
+        <option value="$PROJECT_DIR$/HoboNoMo/Camera.cs" />
+        <option value="$PROJECT_DIR$/HoboNoMo/Player.cs" />
         <option value="$PROJECT_DIR$/HoboNoMo/Scenes/GameScreen.cs" />
       </list>
     </option>
@@ -454,12 +455,12 @@
       <option name="presentableId" value="Default" />
       <updated>1570396335168</updated>
       <workItem from="1570396345032" duration="11660000" />
-      <workItem from="1570446464718" duration="16104000" />
+      <workItem from="1570446464718" duration="18438000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27764000" />
+    <option name="totallyTimeSpent" value="30098000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -472,15 +473,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1538" height="831" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.52374303" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12626603" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Azure Explorer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48345712" visible="true" weight="0.24457309" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48345712" weight="0.23623188" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4962863" weight="0.39215687" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1055,7 +1055,7 @@
     <entry file="file://$PROJECT_DIR$/HoboNoMo/ContentChest.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-197">
-          <caret line="83" column="35" lean-forward="true" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
+          <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
           <folding>
             <marker date="1570484780329" expanded="true" signature="6:186" ph="..." />
             <marker date="1570484780329" expanded="true" signature="206:3382" ph="{...}" />
@@ -1070,25 +1070,6 @@
             <marker date="1570484780329" expanded="true" signature="2570:2726" ph="{...}" />
             <marker date="1570484780329" expanded="true" signature="2772:2926" ph="{...}" />
             <marker date="1570484780329" expanded="true" signature="3021:3300" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HoboNoMo/Player.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
-          <folding>
-            <marker date="1570485168428" expanded="true" signature="6:108" ph="..." />
-            <marker date="1570485168428" expanded="true" signature="128:2192" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="154:2190" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="199:323" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="497:767" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="560:757" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="1103:1477" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="1200:1298" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="1402:1467" ph="{...}" />
-            <marker date="1570485168428" expanded="true" signature="1528:2174" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1137,9 +1118,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/HoboNoMo/Camera.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <marker date="1570486234754" expanded="true" signature="50:1241" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="76:1239" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="356:424" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="464:524" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="553:774" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="813:918" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="980:1092" ph="{...}" />
+            <marker date="1570486234754" expanded="true" signature="1153:1233" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/HoboNoMo/Game1.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-285">
+        <state relative-caret-position="1169">
           <caret line="111" column="12" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
           <folding>
             <marker date="1570482478161" expanded="false" signature="6:192" ph="..." />
@@ -1161,23 +1159,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/HoboNoMo/Player.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-184">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+          <folding>
+            <marker date="1570487833200" expanded="true" signature="6:108" ph="..." />
+            <marker date="1570487833200" expanded="true" signature="128:3152" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="154:3150" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="199:323" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="497:767" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="560:757" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="1270:2437" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="1367:1465" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="1569:1634" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="2325:2427" ph="{...}" />
+            <marker date="1570487833200" expanded="true" signature="2488:3134" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/HoboNoMo/Scenes/GameScreen.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="63" column="64" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
+        <state relative-caret-position="46">
+          <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
           <folding>
-            <marker date="1570485744906" expanded="true" signature="6:108" ph="..." />
-            <marker date="1570485744906" expanded="true" signature="135:2541" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="174:2539" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="515:623" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="664:2259" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="933:1133" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="1171:1386" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="1459:1659" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="1700:1901" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="1927:2019" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="2036:2249" ph="{...}" />
-            <marker date="1570485744906" expanded="true" signature="2310:2533" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="6:132" ph="..." />
+            <marker date="1570487863192" expanded="true" signature="159:2996" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="198:2994" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="590:742" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="783:2471" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="1163:1338" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="1376:1566" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="1639:1814" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="1855:2031" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="2057:2274" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="2291:2461" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="2507:2583" ph="{...}" />
+            <marker date="1570487863192" expanded="true" signature="2634:2988" ph="{...}" />
           </folding>
         </state>
       </provider>

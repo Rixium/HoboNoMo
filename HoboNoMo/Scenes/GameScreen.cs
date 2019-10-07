@@ -1,4 +1,5 @@
 using System;
+using HoboNoMo.Helpers;
 using HoboNoMo.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +11,7 @@ namespace HoboNoMo.Scenes
 
         private readonly ContentChest _contentChest;
         private readonly NetworkManager _networkManager;
+        private Camera _camera = new Camera(0, 0);
         public Func<IScene, bool> RequestSceneChange { get; set; }
 
         public Player Player => _networkManager.GetMyPlayer();
@@ -18,12 +20,17 @@ namespace HoboNoMo.Scenes
         {
             _contentChest = contentChest;
             _networkManager = networkManager;
+
+            Player.OnMove += OnPlayerMove;
         }
 
         public void Update(float delta)
         {
             _networkManager.Update(delta);
 
+            _camera.X = (int) Player.Position.X;
+            _camera.Y = (int) Player.Position.Y;
+            
             var lastAnimation = Player.ActiveAnimation;
             
             _networkManager.Players.ForEach(p => p.Update(delta));
@@ -31,13 +38,13 @@ namespace HoboNoMo.Scenes
             if (InputManager.Player1Down.Down)
             {
                 Player.ActiveAnimation = Player.Animation.WalkDown;
-                Player.Position += new Vector2(0, Player.Speed * delta);
+                Player.YVelocity += delta * 30;
                 moving = true;
             } else if (InputManager.Player1Up.Down)
             {
                 
                 Player.ActiveAnimation = Player.Animation.WalkUp;
-                Player.Position -= new Vector2(0, Player.Speed * delta);
+                Player.YVelocity -= delta * 30;
                 moving = true;
             }
             
@@ -45,33 +52,41 @@ namespace HoboNoMo.Scenes
             if (InputManager.Player1Left.Down)
             {
                 Player.ActiveAnimation = Player.Animation.WalkLeft;
-                Player.Position -= new Vector2(Player.Speed * delta, 0);
+                Player.XVelocity -= delta * 30;
                 moving = true;
             } else if (InputManager.Player1Right.Down)
             {
                 Player.ActiveAnimation = Player.Animation.WalkRight;
-                Player.Position += new Vector2(Player.Speed * delta, 0);
+                Player.XVelocity += delta * 30;
                 moving = true;
             }
 
             if (!moving)
             {
                 Player.ActiveAnimation = Player.Animation.Idle;
+                if(lastAnimation != Player.ActiveAnimation)
+                    _networkManager.SendPlayerAnimation(Player);
             }
             else
             {
                 if(lastAnimation != Player.ActiveAnimation)
                     _networkManager.SendPlayerAnimation(Player);
-                _networkManager.SendPlayerPosition(Player);
+                
             }
+        }
+
+        public void OnPlayerMove()
+        {
+            _networkManager.SendPlayerPosition(Player);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, _camera.Get());
 
             _networkManager.Players.ForEach(p => p.Draw(spriteBatch));
             
+            SpriteHelper.DrawRectangle(spriteBatch, new Rectangle(30, 30, 100, 100), Color.Blue);
             spriteBatch.End();
         }
     }

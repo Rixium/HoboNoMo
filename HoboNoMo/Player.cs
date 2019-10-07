@@ -37,7 +37,11 @@ namespace HoboNoMo
         
         public int Cash { get; set; }
         public Vector2 Position { get; set; }
-        public float Speed { get; set; } = 100;
+        
+        public float XVelocity { get; set; } = 0.0f;
+        public float YVelocity { get; set; } = 0.0f;
+        public float MaxVelocity { get; set; } = 500.0f;
+        public Action OnMove { get; set; }
 
         private int _animationFrame;
         private float _frameCounter;
@@ -55,6 +59,28 @@ namespace HoboNoMo
             if (_animationFrame == Game1.ContentChest.PlayerTextures[Outfit][_activeAnimation].Length)
             {
                 _animationFrame = 0;
+            }
+
+            var newPosition = new Vector2(Position.X, Position.Y);
+
+            XVelocity = MathHelper.Clamp(XVelocity, -MaxVelocity, MaxVelocity);
+            YVelocity = MathHelper.Clamp(YVelocity, -MaxVelocity, MaxVelocity);
+            
+            newPosition.X += XVelocity;
+            newPosition.Y += YVelocity;
+
+            XVelocity *= 0.9f;
+            YVelocity *= 0.9f;
+            
+            if(XVelocity < 0.2f && XVelocity > -0.2f)
+                XVelocity = 0;
+            if (YVelocity < 0.2f && YVelocity > -0.2f)
+                YVelocity = 0;
+             
+            if (Math.Abs(newPosition.X - Position.X) > 0.1f || Math.Abs(newPosition.Y - Position.Y) > 0.1f)
+            {
+                Position = newPosition;
+                OnMove?.Invoke();
             }
         }
 

@@ -5,6 +5,7 @@
       <e p="HoboNoMo" t="IncludeRecursive">
         <e p="app.manifest" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Camera.cs" t="Include" />
         <e p="Content" t="Include">
           <e p="Content.mgcb" t="Include" />
         </e>

@@ -18,9 +18,6 @@ namespace HoboNoMo.Scenes
         private string _titleText = "Hobo No Mo'";
 
         private Color _noColor = Color.White * 0.0f;
-        private Button _playButton;
-        private Button _quitButton;
-        private Button _optionsButton;
         private Color _footerColor = Color.White * 0.8f;
         private Vector2 _footerPosition;
         private string _footerText = "A game made for Ludum Dare 45";
@@ -33,10 +30,15 @@ namespace HoboNoMo.Scenes
         public MainMenuScreen(ContentChest contentChest)
         {
             Game1.OnScreenSizeChanged += Initialise;
-            
+
             _contentChest = contentChest;
-            MediaPlayer.Play(_contentChest.MainTheme);
-            MediaPlayer.IsRepeating = true;
+
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(_contentChest.MainTheme);
+                MediaPlayer.IsRepeating = true;
+            }
+
             Initialise();
         }
 
@@ -61,20 +63,22 @@ namespace HoboNoMo.Scenes
         private void Initialise()
         {
             _titlePosition = StringHelpers.Center(_contentChest.TitleFont, _titleText, UserPreferences.ScreenWidth,
-                UserPreferences.ScreenHeight );
+                UserPreferences.ScreenHeight);
             _titlePosition.Y = UserPreferences.ScreenHeight / 3.0f;
-            
+
             var (x, y) = StringHelpers.Measure(_footerText, _contentChest.ButtonFont);
             _footerPosition = new Vector2(UserPreferences.ScreenWidth / 2.0f - x / 2,
                 UserPreferences.ScreenHeight - 10 - y);
-            
-            
+
+
             var playButton = new Button(_contentChest.ButtonFont,
                 "Start",
                 new Vector2(UserPreferences.ScreenWidth / 2.0f, UserPreferences.ScreenHeight / 2.0f),
                 _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon, true);
 
             playButton.OnButtonSelected += OnButtonSelect;
+
+            playButton.OnClick += () => { RequestSceneChange?.Invoke(new LobbyScene(_contentChest)); };
 
             var optionsButton = new Button(_contentChest.ButtonFont,
                 "Options",
@@ -89,6 +93,8 @@ namespace HoboNoMo.Scenes
                 _noColor, Color.White, Alignment.Center, _contentChest.SelectionIcon);
 
             quitButton.OnButtonSelected += OnButtonSelect;
+
+            quitButton.OnClick += () => { Game1.OnQuit?.Invoke(); };
 
             _buttons = new List<Button>(new[] {playButton, optionsButton, quitButton});
         }
@@ -107,14 +113,18 @@ namespace HoboNoMo.Scenes
                 _selectedButton--;
                 changed = true;
             }
+            else if (InputManager.Player1Use.Press)
+            {
+                _buttons[_selectedButton].OnClick?.Invoke();
+            }
 
             if (!changed) return;
-            
+
             if (_selectedButton < 0)
                 _selectedButton = _buttons.Count - 1;
             if (_selectedButton >= _buttons.Count)
                 _selectedButton = 0;
-                
+
             _buttons[_selectedButton].Selected = true;
         }
 
@@ -126,7 +136,7 @@ namespace HoboNoMo.Scenes
 
             _buttons.ForEach(b => b.Draw(spriteBatch));
 
-            spriteBatch.DrawString(_contentChest.ButtonFont, _footerText, _footerPosition, _footerColor);
+            spriteBatch.DrawString(_contentChest.ButtonFont, _footerText, _footerPosition, Color.White);
             spriteBatch.End();
         }
     }

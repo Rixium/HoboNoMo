@@ -26,6 +26,7 @@ namespace HoboNoMo.UI
         }
 
         public Action<Button> OnButtonSelected { get; set; }
+        public Action OnClick;
 
         private readonly SpriteFont _font;
         private readonly string _text;

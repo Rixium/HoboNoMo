@@ -10,9 +10,20 @@
         </e>
         <e p="ContentChest.cs" t="Include" />
         <e p="Game1.cs" t="Include" />
+        <e p="Helpers" t="Include">
+          <e p="SpriteHelper.cs" t="Include" />
+          <e p="StringHelpers.cs" t="Include" />
+        </e>
         <e p="HoboNoMo.csproj" t="IncludeRecursive" />
         <e p="Icon.bmp" t="Include" />
         <e p="Icon.ico" t="Include" />
+        <e p="Input" t="Include">
+          <e p="GamePadButtonInputBinding.cs" t="Include" />
+          <e p="GamePadThumbstickInputBinding.cs" t="Include" />
+          <e p="IInputBinding.cs" t="Include" />
+          <e p="KeyInputBinding.cs" t="Include" />
+        </e>
+        <e p="InputManager.cs" t="Include" />
         <e p="ISceneManager.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Program.cs" t="Include" />
@@ -22,7 +33,14 @@
         <e p="SceneManager.cs" t="Include" />
         <e p="Scenes" t="Include">
           <e p="IScene.cs" t="Include" />
+          <e p="LobbyScene.cs" t="Include" />
+          <e p="MainMenuScreen.cs" t="Include" />
+          <e p="SplashScreen.cs" t="Include" />
         </e>
+        <e p="UI" t="Include">
+          <e p="Button.cs" t="Include" />
+        </e>
+        <e p="UserPreferences.cs" t="Include" />
         <e p="x64" t="Include" />
         <e p="x86" t="Include" />
       </e>

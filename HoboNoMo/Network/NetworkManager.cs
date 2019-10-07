@@ -115,7 +115,7 @@ namespace HoboNoMo.Network
                         outgoing.Write((int) MessageType.PlayerInfo);
                         outgoing.Write(player.Id.ToString());
                         outgoing.Write(player.Name);
-                        _server.SendMessage(outgoing, msg.SenderConnection, NetDeliveryMethod.Unreliable);
+                        _server.SendMessage(outgoing, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
                     }
                 }
             }
@@ -141,7 +141,7 @@ namespace HoboNoMo.Network
             
             Thread.Sleep(500);
             
-            _client.Connect("localhost", port);
+            _client.Connect(ip, port);
             
             Thread.Sleep(500);
             

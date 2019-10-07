@@ -13,7 +13,7 @@ namespace HoboNoMo.Helpers
 
         public static Vector2 Measure(string text, SpriteFont font)
         {
-            return font.MeasureString(text);
+            return text.Length > 0 ? font.MeasureString(text) : font.MeasureString("|");
         }
     }
 }

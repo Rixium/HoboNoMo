@@ -88,7 +88,7 @@ namespace HoboNoMo.Scenes
 
             joinButton.OnButtonSelected += OnButtonSelect;
 
-            joinButton.OnClick += () => { RequestSceneChange?.Invoke(new LobbyScreen(_contentChest, true)); };
+            joinButton.OnClick += () => { RequestSceneChange?.Invoke(new ConnectionScreen(_contentChest)); };
 
             
             var optionsButton = new Button(_contentChest.ButtonFont,

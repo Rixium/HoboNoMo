@@ -33,7 +33,7 @@ namespace HoboNoMo.Scenes
             Color.Purple
         });
         
-        public LobbyScreen(ContentChest contentChest, bool joining = false)
+        public LobbyScreen(ContentChest contentChest, bool joining = false, string ipAddress = "")
         {
             _contentChest = contentChest;
             Game1.OnScreenSizeChanged += Initialise;
@@ -53,7 +53,7 @@ namespace HoboNoMo.Scenes
             }
             else
             {
-                _networkManager.Join("10.0.75.255", 27411);
+                _networkManager.Join(ipAddress, 27411);
                 _networkManager.OnPlayerAdded += player => { _contentChest.Select.Play(); };
                 _networkManager.OnConnected += () => { _contentChest.Select.Play(); };
             }

@@ -17,7 +17,20 @@ namespace HoboNoMo
             WalkUp
         }
 
-        public ContentChest.Outfit Outfit = ContentChest.Outfit.Nude;
+        private ContentChest.Outfit _outfit =
+            ContentChest.Outfit.Nude;
+        
+        public ContentChest.Outfit Outfit
+        {
+            get => _outfit;
+            set
+            {
+                if (value == _outfit) return;
+                _outfit = value;
+                OnOutfitChange?.Invoke(this);
+            }
+        }
+
 
         private Animation _activeAnimation = Animation.Idle;
         public Animation ActiveAnimation
@@ -42,6 +55,7 @@ namespace HoboNoMo
         public float YVelocity { get; set; } = 0.0f;
         public float MaxVelocity { get; set; } = 500.0f;
         public Action OnMove { get; set; }
+        public Action<Player> OnOutfitChange { get; set; }
 
         private int _animationFrame;
         private float _frameCounter;
@@ -69,8 +83,8 @@ namespace HoboNoMo
             newPosition.X += XVelocity;
             newPosition.Y += YVelocity;
 
-            XVelocity *= 0.9f;
-            YVelocity *= 0.9f;
+            XVelocity *= 0.8f;
+            YVelocity *= 0.8f;
             
             if(XVelocity < 0.2f && XVelocity > -0.2f)
                 XVelocity = 0;
@@ -95,7 +109,20 @@ namespace HoboNoMo
             spriteBatch.DrawString(Game1.ContentChest.ButtonFont, Name, textPosition, Color.White);
             spriteBatch.Draw(Game1.ContentChest.PlayerTextures[Outfit][ActiveAnimation][_animationFrame], Position, Color.White);
         }
-        
 
+
+        public void NextOutfit()
+        {
+            if (Outfit >= ContentChest.Outfit.Six)
+                Outfit = ContentChest.Outfit.Nude;
+            else Outfit = (ContentChest.Outfit)(int) Outfit + 1;
+        }
+
+        public void LastOutfit()
+        {
+            if (Outfit <= ContentChest.Outfit.Nude)
+                Outfit = ContentChest.Outfit.Six;
+            else Outfit = (ContentChest.Outfit)(int) Outfit - 1;
+        }
     }
 }

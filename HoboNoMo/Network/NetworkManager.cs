@@ -18,7 +18,8 @@ namespace HoboNoMo.Network
             NewConnectionPlayer,
             PlayerPositionUpdate,
             GameStart,
-            AnimationUpdate
+            AnimationUpdate,
+            OutfitUpdate
         }
 
         public bool IsServer => _server != null;
@@ -107,6 +108,9 @@ namespace HoboNoMo.Network
                     case MessageType.AnimationUpdate:
                         ProcessPlayerAnimationUpdate(msg);
                         break;
+                    case MessageType.OutfitUpdate:
+                        ProcessPlayerOutfitChange(msg);
+                        break;
                 }
             }
         }
@@ -161,8 +165,26 @@ namespace HoboNoMo.Network
                         if (animationProcessed == null) continue;
                         SendPlayerAnimation(animationProcessed);
                         break;
+                    case MessageType.OutfitUpdate:
+                        var processedOutfit = ProcessPlayerOutfitChange(msg);
+                        if (processedOutfit == null) continue;
+                        SendOutfitChange(processedOutfit);
+                        break;
                 }
             }
+        }
+
+        private Player ProcessPlayerOutfitChange(NetIncomingMessage msg)
+        {
+            var playerId = msg.ReadString();
+            var playerOutfit = (ContentChest.Outfit)msg.ReadInt32();
+            
+            var player = Players.FirstOrDefault(p => p.Id.ToString().Equals(playerId));
+            if (player == null) return null;
+            
+            player.Outfit = playerOutfit;
+
+            return player;
         }
 
         private Player ProcessPlayerAnimationUpdate(NetIncomingMessage msg)
@@ -294,6 +316,35 @@ namespace HoboNoMo.Network
             msg.Write((int) MessageType.AnimationUpdate);
             msg.Write(player.Id.ToString());
             msg.Write((int)player.ActiveAnimation);
+            
+            if (IsClient)
+            {
+                _client.SendMessage(msg, NetDeliveryMethod.ReliableOrdered);
+            }
+            else
+            {
+                _server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+            }
+        }
+
+        public void SendOutfitChange(Player player)
+        {
+            if(player == null) return;
+            
+            NetOutgoingMessage msg;
+            
+            if (IsClient)
+            {
+                msg = _client.CreateMessage();
+            }
+            else
+            {
+                msg = _server.CreateMessage();
+            }
+            
+            msg.Write((int) MessageType.OutfitUpdate);
+            msg.Write(player.Id.ToString());
+            msg.Write((int)player.Outfit);
             
             if (IsClient)
             {

@@ -3,6 +3,7 @@ using HoboNoMo.Helpers;
 using HoboNoMo.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace HoboNoMo.Scenes
 {
@@ -12,6 +13,7 @@ namespace HoboNoMo.Scenes
         private readonly ContentChest _contentChest;
         private readonly NetworkManager _networkManager;
         private Camera _camera = new Camera(0, 0);
+        private KeyboardState lastState;
         public Func<IScene, bool> RequestSceneChange { get; set; }
 
         public Player Player => _networkManager.GetMyPlayer();
@@ -22,6 +24,7 @@ namespace HoboNoMo.Scenes
             _networkManager = networkManager;
 
             Player.OnMove += OnPlayerMove;
+            Player.OnOutfitChange += _networkManager.SendOutfitChange;
         }
 
         public void Update(float delta)
@@ -35,6 +38,7 @@ namespace HoboNoMo.Scenes
             
             _networkManager.Players.ForEach(p => p.Update(delta));
             var moving = false;
+            
             if (InputManager.Player1Down.Down)
             {
                 Player.ActiveAnimation = Player.Animation.WalkDown;
@@ -46,21 +50,32 @@ namespace HoboNoMo.Scenes
                 Player.ActiveAnimation = Player.Animation.WalkUp;
                 Player.YVelocity -= delta * 30;
                 moving = true;
-            }
-            
-            
-            if (InputManager.Player1Left.Down)
+            } else if (InputManager.Player1Left.Down)
             {
                 Player.ActiveAnimation = Player.Animation.WalkLeft;
+                
                 Player.XVelocity -= delta * 30;
                 moving = true;
             } else if (InputManager.Player1Right.Down)
             {
+             
                 Player.ActiveAnimation = Player.Animation.WalkRight;
+                
                 Player.XVelocity += delta * 30;
                 moving = true;
             }
 
+            var keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.OemPlus) && lastState.IsKeyUp(Keys.OemPlus))
+            {
+                Player.NextOutfit();
+            } else if (keyState.IsKeyDown(Keys.OemMinus) && lastState.IsKeyUp(Keys.OemMinus))
+            {
+                Player.LastOutfit();
+            }
+
+            lastState = keyState;
+            
             if (!moving)
             {
                 Player.ActiveAnimation = Player.Animation.Idle;

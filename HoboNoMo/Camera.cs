@@ -5,7 +5,7 @@ namespace HoboNoMo
     public class Camera
     {public int X;
         public int Y;
-        public float Scale = 2;
+        public float Scale = 1;
         public int MaxZoom = 3;
 
 
